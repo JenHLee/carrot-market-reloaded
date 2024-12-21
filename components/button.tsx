@@ -2,11 +2,11 @@
 
 import { useFormStatus } from "react-dom";
 
-interface FormButtonProps {
+interface ButtonProps {
   text: string;
 }
 
-export default function FormButton({ text }: FormButtonProps) {
+export default function Button({ text }: ButtonProps) {
   // only be used child of form (component 내부에서 사용되어야 함)
   // it'll automatically find parent form, 
   // then will figure the form's action status (pending or not)
