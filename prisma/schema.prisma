@@ -25,7 +25,8 @@ model SMSToken {
   token      String   @unique
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade) // if the parent is deleted -> child is deleted 
+  // user       User?     @relation(fields: [userId], references: [id], oKnDelete: SetNull) // if the parent is deleted -> child is Null 
   userId     Int
 }
 
