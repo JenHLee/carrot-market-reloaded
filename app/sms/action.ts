@@ -2,13 +2,14 @@
 
 import { z } from "zod"
 import validator from "validator" //javascript library 
+import { redirect } from "next/navigation";
 
 interface ActionState {
     token: boolean,
 }
 
 // const phoneSchema = z.string().trim().refine(validator.isMobilePhone);
-const phoneSchema = z.string().trim().refine((phone) => validator.isMobilePhone(phone, "en-CA"));
+const phoneSchema = z.string().trim().refine((phone) => validator.isMobilePhone(phone, "en-CA"), "Wrong phone format");
 
 // user input => formData => number => string 
 // 유저가 input하면 formData를 통해 value는 저절로 string으로 바뀜
@@ -28,11 +29,22 @@ export async function smsLogin(prevState: any, formData: FormData) {
         if (!result.success) {
             return {
                 token: false,
+                error: result.error.flatten()
             }
         } else {
             return {
                 token: true,
             }
+        }
+    } else { // second time call this action
+        const result = tokenSchema.safeParse(token);
+        if (!result.success) {
+            return {
+                token: true,
+                error: result.error.flatten()
+            };
+        } else {
+            redirect("/");
         }
     }
 }
