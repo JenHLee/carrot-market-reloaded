@@ -20,11 +20,11 @@ const checkEmailExists = async (email: string) => {
 
 const formSchema = z.object({
   email: z.string({
-    required_error: "Password is required"
+    required_error: "Email is required"
   }).email().toLowerCase().refine(await checkEmailExists, "An account with this email does not exist."),
   password: z.string()
-  // .min(PASSWORD_MIN_LENGTH)
-  // .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR)
+  .min(PASSWORD_MIN_LENGTH)
+  .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR)
 })
 
 
@@ -58,7 +58,8 @@ export async function login(prevState: any,
     // log the user in
     if(ok) {
       const session = await getSession();
-      session.id = user!.id
+      session.id = user!.id;
+      await session.save();
       redirect("/profile")
     } else {
       // Zod인척 Error return
@@ -69,7 +70,5 @@ export async function login(prevState: any,
         }
       }
     }
-    // redirect "/profile"
-    console.log(result.data)
   }
 }
