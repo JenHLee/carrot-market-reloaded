@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { HomeIcon as SolidHomeIcon, NewspaperIcon as SolidNewspaperIcon} from "@heroicons/react/24/solid";
+import { HomeIcon as SolidHomeIcon, NewspaperIcon as SolidNewspaperIcon, } from "@heroicons/react/24/solid";
 import { HomeIcon as OutlineHomeIcon, NewspaperIcon as OutlineNewspaperIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 
