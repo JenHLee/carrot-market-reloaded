@@ -1,8 +1,9 @@
+async function getProducts() {
+  await new Promise((resolve) => setTimeout(resolve, 10000));
+}
 
-export default function Products() {
-  return (
-    <div>
-      Product Home
-    </div>
-  )
+export default async function Products() {
+  const product = await getProducts();
+
+  return <div>Product Home</div>;
 }
