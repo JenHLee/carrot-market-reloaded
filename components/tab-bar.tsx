@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { HomeIcon as SolidHomeIcon } from "@heroicons/react/24/solid";
-import { HomeIcon as OutlineHomeIcon } from "@heroicons/react/24/outline";
+import { HomeIcon as SolidHomeIcon, NewspaperIcon as SolidNewspaperIcon} from "@heroicons/react/24/solid";
+import { HomeIcon as OutlineHomeIcon, NewspaperIcon as OutlineNewspaperIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 
 export default function TabBar() {
@@ -18,9 +18,9 @@ export default function TabBar() {
       </Link>
       <Link href="/life" className="flex flex-col items-center gap-px">
       {pathname === "/life" ? (
-          <SolidHomeIcon className="w-7 h-7" />
+          <SolidNewspaperIcon className="w-7 h-7" />
         ) : (
-          <OutlineHomeIcon className="w-7 h-7" />
+          <OutlineNewspaperIcon className="w-7 h-7" />
         )}
         <span>동네생활</span>
       </Link>
