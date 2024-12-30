@@ -44,7 +44,7 @@ export default function AddProduct() {
       SetPreview(url);
     } else {
       if (!isImage(file)) {
-        SetError("파일이 이미지가 아닙니다.");
+        SetError("파일이 이미지가 아닙니다. jpeg, jpg, png 파일만 가능");
       }
       if (!isValidSize(file)) {
         SetError("파일 크기가 2MB를 초과합니다.");
