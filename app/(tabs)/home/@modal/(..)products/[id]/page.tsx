@@ -24,7 +24,7 @@ async function getProducts(id: number) {
 }
 
 export default async function Modal({ params }: { params: { id: string } }) {
-  await new Promise((resolve) => setTimeout(resolve, 10000));
+  // await new Promise((resolve) => setTimeout(resolve, 10000));
   const id = Number(params.id);
   if (isNaN(id)) {
     return notFound();
@@ -48,9 +48,8 @@ export default async function Modal({ params }: { params: { id: string } }) {
             className="object-cover"
           />
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           <div className="p-5 flex items-center gap-3 border-b border-neutral-700">
-            {" "}
             <div className="size-10 rounded-full overflow-hidden">
               {product.user.avatar !== null ? (
                 <Image
