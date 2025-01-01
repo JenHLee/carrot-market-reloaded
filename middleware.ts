@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
     } else {
         // user logged in => can't go public url (이미 로그인한 유저가 로그인, 어카운트 페이지를 가는 것은 이상함)
         if (exists) {
-            return NextResponse.redirect(new URL("/products", request.url))
+            return NextResponse.redirect(new URL("/home", request.url))
         }
     }
 }

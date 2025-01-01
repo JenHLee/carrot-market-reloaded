@@ -29,5 +29,5 @@ export default function ListProduct({
         <span className="text-lg font-semibold">{formatToWon(price)}</span>
       </div>
     </Link>
-  );
+  )
 }

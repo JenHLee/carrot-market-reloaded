@@ -31,7 +31,7 @@ export default async function Products() {
 
   return (
     <div>
-      <ProductList initialProducts={initialProducts} />;
+      <ProductList initialProducts={initialProducts} />
       <Link
         href="/products/add"
         className="bg-orange-500 flex items-center justify-center size-16 rounded-full bottom-24 fixed right-8 text-white transition-colors hover:bg-orange-400"
