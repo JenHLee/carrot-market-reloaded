@@ -14,14 +14,14 @@ model User {
   password   String?
   phone      String?    @unique // +15878937943
   github_id  String?    @unique // same as email
-  avatar     String? // when the user signin with github_id
+  avatar     String?    @default("/default_avatar.jpg") // when the user signin with github_id
   created_at DateTime   @default(now()) // current time when the user created
   updated_at DateTime   @updatedAt // whenver the user is modified
   tokens     SMSToken[]
   products   Product[]
   posts      Post[]
-  comments    Comment[]
-  likes       Like[]
+  comments   Comment[]
+  likes      Like[]
 }
 
 model SMSToken {
@@ -57,7 +57,7 @@ model Post {
   user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   Int
   comments Comment[]
-  likes     Like[]
+  likes    Like[]
 }
 
 model Comment {
