@@ -68,7 +68,7 @@ export default function ProductList({ initialProducts }: ProductListProps) {
       {products.map((product) => (
         <ListProduct key={product.id} {...product} />
       ))}
-      {!isLastPage ? (
+      {/* {!isLastPage ? (
         // button 대신 trigger를 이용, trigger가 보이면 page를 증가시킴
         // 이것을 하기위해 useEffect 내부에 IntersectionObserver를 만듬
         <span
@@ -78,7 +78,7 @@ export default function ProductList({ initialProducts }: ProductListProps) {
         >
           {isLoading ? "Loading..." : "Load More"}
         </span>
-      ) : null}
+      ) : null} */}
     </div>
   );
 }
