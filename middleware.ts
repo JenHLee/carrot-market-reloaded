@@ -13,7 +13,9 @@ const publicOnlyUrls: Routes = {
     "/login": true,
     "/sms": true,
     "/create-account": true,
-}
+    "/github/start": true,
+    "/github/complete": true,
+  };
 
 // middleware function name has to be same as "middleware" not middleware's'
 // config also has to be 'config'
@@ -21,7 +23,6 @@ const publicOnlyUrls: Routes = {
 // 2. 쿠키 설정
 // matcher을 이용하거나 아니면 if로 middleware안에서 url 비교
 export async function middleware(request: NextRequest) {
-    // console.log("hello")
     const session = await getSession();
     const exists = publicOnlyUrls[request.nextUrl.pathname]
 

@@ -1,10 +1,11 @@
+import LikeButton from "@/components/like-button";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
-import { EyeIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
-import { revalidatePath } from "next/cache";
+import { EyeIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { unstable_cache as nextCache } from "next/cache";
 
 async function getPost(id: number) {
   //findUnique
@@ -42,17 +43,34 @@ async function getPost(id: number) {
   }
 }
 
-async function getIsLike(postId: number) {
-  const session = await getSession();
-  const like = await db.like.findUnique({
+async function getLikeStatus(postId: number, userId: number) {
+  //   const session = await getSession();
+  const isLiked = await db.like.findUnique({
     where: {
       id: {
         postId,
-        userId: session.id!,
+        userId,
       },
     },
   });
-  return Boolean(like); // like가 있으면 (이미 like되어있다면 true / 아니면 false)
+  const likeCount = await db.like.count({
+    where: {
+      postId,
+    },
+  });
+  return {
+    likeCount,
+    isLiked: Boolean(isLiked), // like가 있으면 (이미 like되어있다면 true / 아니면 false)
+  };
+}
+
+async function getCachedLikeStatus(postId: number) {
+  const session = await getSession();
+  const userId = session.id;
+  const cachedOperation = nextCache(getLikeStatus, ["product-like-status"], {
+    tags: [`like-status-${postId}`],
+  });
+  return cachedOperation(postId, userId!);
 }
 
 export default async function PostDetail({
@@ -69,37 +87,8 @@ export default async function PostDetail({
     return notFound();
   }
   //   console.log(post);
+  const { likeCount, isLiked } = await getCachedLikeStatus(id);
 
-  const likePost = async () => {
-    "use server";
-    const session = await getSession();
-    // user가 like를 두번 이상 하려면 에러가 남
-    try {
-      await db.like.create({
-        data: {
-          postId: id,
-          userId: session.id!,
-        },
-      });
-      revalidatePath(`/posts/${id}`);
-    } catch (e) {}
-  };
-
-  const dislikePost = async () => {
-    "use server";
-    const session = await getSession();
-    await db.like.delete({
-      where: {
-        id: {
-          postId: id,
-          userId: session.id!,
-        },
-      },
-    });
-    revalidatePath(`/posts/${id}`);
-  };
-
-  const isLiked = await getIsLike(id);
   return (
     <div className="p-5 text-white">
       <div className="flex items-center gap-2 mb-2">
@@ -124,14 +113,7 @@ export default async function PostDetail({
           <EyeIcon className="size-5" />
           <span>조회 {post.views}</span>
         </div>
-        <form action={isLiked ? dislikePost : likePost}>
-          <button
-            className={`flex items-center gap-2 text-neutral-400 text-sm border border-neutral-400 rounded-full p-2 hover:bg-neutral-800 transition-colors`}
-          >
-            <HandThumbUpIcon className="size-5" />
-            <span>공감하기 ({post._count.likes})</span>
-          </button>
-        </form>
+        <LikeButton isLiked={isLiked} likeCount={likeCount} postId={id} />
       </div>
     </div>
   );
