@@ -6,9 +6,8 @@ export function GET() {
     const baseURL = "https://github.com/login/oauth/authorize"
     const params = {
         client_id: process.env.GITHUB_CLIENT_ID!,
-
-        // 우리가 user로부터 원하는 data (facebook = permission)
-        scope: "read:user, user:email",
+        
+        scope: "read:user, user:email", // scope: 우리가 user로부터 원하는 data (facebook = permission)
         allow_signup: "true",
     }
     const formattedParams = new URLSearchParams(params).toString();
